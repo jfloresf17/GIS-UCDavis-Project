@@ -10,10 +10,10 @@ function MascaraNubesL(image) {
   var MascaraL = qa.bitwiseAnd(RecorteMascaraL).eq(0);
   return image.updateMask(MascaraL);
 }
-//LLamamos a la colección Landsat 8 y filtramos por fechas y coberturas de nubes para ajustar parámetros
+//LLamamos a la colección Landsat 8 y filtramos por fechas, extensión y coberturas de nubes para ajustar parámetros
 var Landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1') //Llamada a la colección Landsat 8
-  .filterDate('2015-01-01', '2015-04-31') //Filtro de fechas de trabajo
-  .filter(ee.Filter.lt('CLOUD_COVER',80))// Nubosidad alta para mayor resolución
+  .filterDate('2015-01-01', '2015-04-31') //Filtro de fechas del trabajo
+  .filter(ee.Filter.lt('CLOUD_COVER',80))// Nubosidad alta para mayor resolución debido a la posición cubierta por el Landsat 8
   .map(clipped) //Recortando la imagen
   .map(MascaraNubesL); //Enmascarando las nubes
 //Representamos la composición RGB a color natural RGB 321
@@ -28,5 +28,5 @@ Map.addLayer(Landsat.median(), rgbVis, 'LandsatCloudless');
 //Exportamos la imagen incorporando las bandas que queramos en el GeoTIF y asignamos resolución de salida
 Export.image.toDrive({
   image: Landsat.median(), //Reseñar las bandas a exportar (todas o las representadas)
-  description: 'Lima-Summer-2015', //Nombre de archivo de salida a exportar en Google Drive
+  description: 'JesusMaría-Summer-2015', //Nombre de archivo de salida a exportar en Google Drive
   scale: 30,}); //Resolucion de pixel de salida
