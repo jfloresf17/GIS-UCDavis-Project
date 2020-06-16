@@ -13,7 +13,8 @@ function MascaraNubesL(image) {
 //LLamamos a la colección Landsat 8 y filtramos por fechas y coberturas de nubes para ajustar parámetros
 var Landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1') //Llamada a la colección Landsat 8
   .filterDate('2015-12-21', '2016-03-21') //Filtro de fechas de trabajo
-  .filter(ee.Filter.lt('CLOUD_COVER',70))// Nubosidad alta para mayor resolución en la imagen
+  .filter(ee.Filter.lt('CLOUD_COVER',70))// Nubosidad alta para mayor resolución en la imagen, esto solo se aplica para los meses de verano en 
+  //Lima y ciudades costeras en Perú
   .map(clipped) //Recortando la imagen
   .map(MascaraNubesL);//Filtro de cobertura de nubes
 //Representamos la composición RGB a color natural RGB 321
